@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@EntityListeners(EntityListeners.class)
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Table(name = "lawd")
 public class Lawd {
@@ -22,7 +23,6 @@ public class Lawd {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long lawdId;
-	
 	
 	@Column(nullable = false)
 	private String lawdCd;
