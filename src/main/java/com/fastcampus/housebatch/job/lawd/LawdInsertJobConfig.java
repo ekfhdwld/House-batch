@@ -1,6 +1,7 @@
 package com.fastcampus.housebatch.job.lawd;
 
 import com.fastcampus.housebatch.core.entity.Lawd;
+import com.fastcampus.housebatch.core.service.LawdService;
 import com.fastcampus.housebatch.job.validator.FilePathParameterValidator;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ public class LawdInsertJobConfig {
 	
 	private JobBuilderFactory jobBuilderFactory;
 	private StepBuilderFactory stepBuilderFactory;
+	
+	private LawdService lawdService;
 	
 	@Bean
 	public Job lawdInsertJob(Step lawdInsertStep){
@@ -69,7 +72,7 @@ public class LawdInsertJobConfig {
 	@Bean
 	@StepScope
 	public ItemWriter<Lawd> lawdItemWriter(){
-		return items -> items.forEach(System.out::println);
+		return items -> items.forEach(lawdService::upsert);
 	}
 	
 }
