@@ -8,9 +8,24 @@
 
 - User : '구'를 기준으로 관심을 설정
 - System : '구'를 기준으로 알림을 보냄
-
+<br/>  
 
 ## 배치
 1. 아파트 실거래가 정보를 서버에 저장
 2. 유저가 관심 설정한 매물에 대해 실거래가 정보 알림
+<br/>  
  
+## Stack
+- JDK 11
+- Spring Boot 2.6.6
+  - Spring Batch
+  - Spring JPA
+- etc
+  - docker (mysql)
+  - git
+  - gradle
+  - junit
+  - lombok
+<br/>  
+<br/>      
+        
