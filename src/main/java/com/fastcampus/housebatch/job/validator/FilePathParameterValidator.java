@@ -16,12 +16,12 @@ public class FilePathParameterValidator implements JobParametersValidator {
 	public void validate(JobParameters parameters) throws JobParametersInvalidException {
 		String filePath = parameters.getString("filePath");
 		if(!StringUtils.hasText(filePath)){
-			throw new JobParametersInvalidException(FILE_PATH + "°¡ ºó ¹®ÀÚ¿­ÀÌ°Å³ª Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù");
+			throw new JobParametersInvalidException(FILE_PATH + "ê°€ ë¹ˆ ë¬¸ìì—´ì´ê±°ë‚˜ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		
 		Resource resource = new ClassPathResource(filePath);
 		if(!resource.exists()){
-			throw new JobParametersInvalidException(FILE_PATH + "°¡ class path¿¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. °æ·Î¸¦ È®ÀÎÇØÁÖ¼¼¿ä");
+			throw new JobParametersInvalidException(FILE_PATH + "ê°€ class pathì— ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ê²½ë¡œë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
 		}
 		
 	}
