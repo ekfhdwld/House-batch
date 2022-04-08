@@ -28,10 +28,10 @@ import static com.fastcampus.housebatch.job.lawd.LawdFieldSetMapper.*;
 @Slf4j
 public class LawdInsertJobConfig {
 	
-	private JobBuilderFactory jobBuilderFactory;
-	private StepBuilderFactory stepBuilderFactory;
+	private final JobBuilderFactory jobBuilderFactory;
+	private final StepBuilderFactory stepBuilderFactory;
 	
-	private LawdService lawdService;
+	private final LawdService lawdService;
 	
 	@Bean
 	public Job lawdInsertJob(Step lawdInsertStep){
