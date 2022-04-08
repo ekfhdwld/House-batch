@@ -2,6 +2,7 @@ package com.fastcampus.housebatch.job.apt;
 
 import com.fastcampus.housebatch.adapter.ApartmentApiResource;
 import com.fastcampus.housebatch.core.dto.AptDealDto;
+import com.fastcampus.housebatch.core.repository.LawdRepository;
 import com.fastcampus.housebatch.job.validator.LawdCdParameterValidator;
 import com.fastcampus.housebatch.job.validator.YearMonthParameterValidator;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,11 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.CompositeJobParametersValidator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,17 +34,21 @@ import java.util.Arrays;
 @Slf4j
 public class AptDealInsertJobConfig {
 	
-	private JobBuilderFactory jobBuilderFactory;
-	private StepBuilderFactory stepBuilderFactory;
+	private final JobBuilderFactory jobBuilderFactory;
+	private final StepBuilderFactory stepBuilderFactory;
 	
-	private ApartmentApiResource apartmentApiResource;
+	private final ApartmentApiResource apartmentApiResource;
+	private final LawdRepository lawdRepository;
 	
 	@Bean
-	public Job aptDealInsertJob(Step aptDealInsertStep){
+	public Job aptDealInsertJob(
+//	    Step aptDealInsertStep,
+	    Step guLawdCdStep
+	){
 		return jobBuilderFactory.get("aptDealInsertJob")
 		  .incrementer(new RunIdIncrementer())
 		  .validator(aptDealJobParameterValidator())
-		  .start(aptDealInsertStep)
+		  .start(guLawdCdStep)
 		  .build();
 	}
 	
@@ -53,6 +60,25 @@ public class AptDealInsertJobConfig {
 		));
 		return validator;
 	}
+	
+	@JobScope
+	@Bean
+	public Step guLawdCdStep(Tasklet guLawdCdTasklet){
+		return stepBuilderFactory.get("guLawdCdStep")
+		  .tasklet(guLawdCdTasklet)
+		  .build();
+	}
+	
+	@StepScope
+	@Bean
+	public Tasklet guLawdCdTasklet(){
+		return (contribution, chunkContext) -> {
+			lawdRepository.findDistinctGuLawdCd()
+				.forEach(System.out::println);
+			return RepeatStatus.FINISHED;
+		};
+	}
+	
 	
 	
 	@Bean
