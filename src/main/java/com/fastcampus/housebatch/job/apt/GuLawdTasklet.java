@@ -44,7 +44,7 @@ public class GuLawdTasklet implements Tasklet {
 		
 		itemCount--;
 		
-		executionContext.putString("KEY_LAWD_CD", guLawdCdList.get(itemCount));
+		executionContext.putString(KEY_LAWD_CD, guLawdCdList.get(itemCount));
 		executionContext.putInt("KEY_ITEM_COUNT", itemCount);
 		
 		contribution.setExitStatus(new ExitStatus("CONTINUABLE"));
