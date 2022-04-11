@@ -14,6 +14,6 @@ public interface LawdRepository extends JpaRepository<Lawd, Long> {
 	//select distinct substr(lawd_cd, 1, 5) from lawd where exist = 1 and lawd_cd not like '%00000000';
 	
 	//@Query annotation 활용
-	@Query("select distinct substring(l.lawdCd, 1, 5) from Lawd l where l.exist = 1 and l.lawdCd not like '%000000000'")
+	@Query("select distinct substring(l.lawdCd, 1, 5) from Lawd l where l.exist = 1 and l.lawdCd not like '%00000000'")
 	List<String> findDistinctGuLawdCd();
 }
