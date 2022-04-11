@@ -3,17 +3,16 @@ package com.fastcampus.housebatch.job.apt;
 import com.fastcampus.housebatch.adapter.ApartmentApiResource;
 import com.fastcampus.housebatch.core.dto.AptDealDto;
 import com.fastcampus.housebatch.core.repository.LawdRepository;
+import com.fastcampus.housebatch.core.service.AptDealService;
 import com.fastcampus.housebatch.job.validator.YearMonthParameterValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParametersValidator;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.job.CompositeJobParametersValidator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemWriter;
@@ -26,7 +25,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import java.time.YearMonth;
-import java.util.Arrays;
 
 @Configuration
 @AllArgsConstructor
@@ -40,15 +38,14 @@ public class AptDealInsertJobConfig {
 	
 	@Bean
 	public Job aptDealInsertJob(
-	  Step aptDealInsertStep,
-	  Step guLawdCdStep,
-	  Step contextPrintStep
+		  Step guLawdCdStep,
+		  Step aptDealInsertStep
 	) {
 		return jobBuilderFactory.get("aptDealInsertJob")
 		  .incrementer(new RunIdIncrementer())
 		  .validator(new YearMonthParameterValidator())
 		  .start(guLawdCdStep)
-		  .on("CONTINUABLE").to(contextPrintStep).next(guLawdCdStep)
+		  .on("CONTINUABLE").to(aptDealInsertStep).next(guLawdCdStep)
 		  .from(guLawdCdStep)
 		  .on("*").end()
 		  .end()
@@ -124,9 +121,10 @@ public class AptDealInsertJobConfig {
 	
 	@Bean
 	@StepScope
-	public ItemWriter<AptDealDto> aptDealWriter() {
+	public ItemWriter<AptDealDto> aptDealWriter(AptDealService aptDealService) {
 		return items -> {
-			items.forEach(System.out::println);
+			items.forEach(aptDealService::upsert);
+			System.out.println("================= Writing Completed =================");
 		};
 	}
 }
