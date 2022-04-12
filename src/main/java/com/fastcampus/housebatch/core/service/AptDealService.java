@@ -24,20 +24,18 @@ public class AptDealService {
 		saveAptDeal(dto, apt);
 	}
 	
+	private Apt getAptOrNew(AptDealDto dto) {
+		Apt apt = aptRepository.findAptByAptNameAndJibun(dto.getAptName(), dto.getJibun())
+		  .orElseGet(() -> Apt.from(dto));
+		return aptRepository.save(apt);
+	}
+	
 	private void saveAptDeal(AptDealDto dto, Apt apt) {
 		AptDeal aptDeal = aptDealRepository.findAptDealByAptAndExclusiveAreaAndDealDateAndDealAmountAndFloor(
-							apt, dto.getExclusiveArea(), dto.getDealDate(), dto.getDealAmount(), dto.getFloor())
-		             .orElseGet(() -> AptDeal.from(dto, apt));
+							apt, dto.getExclusiveArea(),dto.getDealDate(), dto.getDealAmount(), dto.getFloor())
+						  .orElseGet(() -> AptDeal.of(dto, apt));
 		aptDeal.setDealCanceled(dto.isDealCanceled());
 		aptDeal.setDealCanceledDate(dto.getDealCanceledDate());
 		aptDealRepository.save(aptDeal);
 	}
-	
-	private Apt getAptOrNew(AptDealDto dto) {
-		Apt apt = aptRepository.findAptByAptNameAndJibun(dto.getAptName(), dto.getJibun())
-		                        .orElseGet(() -> Apt.from(dto));
-		return aptRepository.save(apt);
-	}
-	
-	
 }
