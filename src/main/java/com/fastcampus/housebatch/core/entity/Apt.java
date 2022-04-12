@@ -2,7 +2,6 @@ package com.fastcampus.housebatch.core.entity;
 
 import com.fastcampus.housebatch.core.dto.AptDealDto;
 import lombok.Data;
-import org.hibernate.event.internal.EntityCopyAllowedLoggedObserver;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,7 +17,7 @@ public class Apt {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long aptId;
 	
 	@Column(nullable = false)
 	private String aptName;
