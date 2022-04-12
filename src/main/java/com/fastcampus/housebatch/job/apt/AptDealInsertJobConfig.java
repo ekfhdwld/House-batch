@@ -66,25 +66,6 @@ public class AptDealInsertJobConfig {
 		return new GuLawdTasklet(lawdRepository);
 	}
 	
-	@JobScope
-	@Bean
-	public Step contextPrintStep(Tasklet contextPrintTasklet) {
-		return stepBuilderFactory.get("contextPrintStep")
-		  .tasklet(contextPrintTasklet)
-		  .build();
-	}
-	
-	@StepScope
-	@Bean
-	public Tasklet contextPrintTasklet(
-	  @Value("#{jobExecutionContext['guLawdCd']}") String guLawdCd
-	) {
-		return (contribution, chunkContext) -> {
-			System.out.println("[contextPrintStep] guLawdCd = " + guLawdCd);
-			return RepeatStatus.FINISHED;
-		};
-	}
-	
 	@Bean
 	@JobScope
 	public Step aptDealInsertStep(StaxEventItemReader<AptDealDto> aptDealResourceReader,
