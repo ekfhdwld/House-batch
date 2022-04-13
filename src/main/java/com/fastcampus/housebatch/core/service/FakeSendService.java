@@ -1,4 +1,4 @@
-package com.fastcampus.housebatch.adapter;
+package com.fastcampus.housebatch.core.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.fastcampus.housebatch.job.notify;
 
-import com.fastcampus.housebatch.adapter.FakeSendService;
+import com.fastcampus.housebatch.core.service.FakeSendService;
 import com.fastcampus.housebatch.core.dto.AptDto;
 import com.fastcampus.housebatch.core.dto.NotificationDto;
 import com.fastcampus.housebatch.core.entity.AptNotification;
