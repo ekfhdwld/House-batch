@@ -21,7 +21,7 @@ public class NotificationDto {
 		  + "총 %d개 거래가 발생했습니다.\n", guName, count)
 		  +
 		  aptDeals.stream()
-				  .map(deal -> String.format(" - %s : %d원\n", deal.getName(), decimalFormat.format(deal.getPrice())))
+				  .map(deal -> String.format(" - %s : %s원\n", deal.getName(), decimalFormat.format(deal.getPrice())))
 				  .collect(Collectors.joining());
 		  
 	}
