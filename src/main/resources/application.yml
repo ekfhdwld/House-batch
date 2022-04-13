@@ -20,9 +20,9 @@ spring:
     generate-ddl: false
     hibernates:
       ddl-auto: none
-    batch:
-      jdbc:
-        initialize-schema: ALWAYS
+  batch:
+    jdbc:
+      initialize-schema: always
 external :
   apartment-api:
     path: http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev
