@@ -18,7 +18,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
-import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -80,9 +79,9 @@ public class AptDealInsertJobConfig {
 	@Bean
 	@StepScope
 	public StaxEventItemReader<AptDealDto> aptDealResourceReader(
-	  @Value("#{jobParameters['yearMonth']}") String yearMonth,
-	  @Value("#{jobExecutionContext['guLawdCd']}") String guLawdCd,
-	  Jaxb2Marshaller aptDealDtoMarshaller
+		  @Value("#{jobParameters['yearMonth']}") String yearMonth,
+		  @Value("#{jobExecutionContext['guLawdCd']}") String guLawdCd,
+		  Jaxb2Marshaller aptDealDtoMarshaller
 	) {
 		return new StaxEventItemReaderBuilder<AptDealDto>()
 		  .name("aptDealResourceReader")
